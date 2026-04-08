@@ -87,17 +87,6 @@ public class VideoResource {
         }
     }
 
-    /**
-     * Incrementar contador de reproducciones
-     *
-     * POST /api/videos/{id}/reproduccion
-     *
-     * Parámetro:
-     * - id: ID del vídeo (path parameter)
-     *
-     * Respuesta:
-     * - JSON con estado y nueva cantidad de reproducciones
-     */
     @POST
     @Path("/{id}/reproduccion")
     @Produces(MediaType.APPLICATION_JSON)
@@ -131,11 +120,6 @@ public class VideoResource {
         }
     }
 
-    /**
-     * Obtener un vídeo por ID
-     *
-     * GET /api/videos/{id}
-     */
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -156,9 +140,6 @@ public class VideoResource {
                 .build();
     }
 
-    /**
-     * Convertir un Video a objeto JSON (como String)
-     */
     private String convertirAJSONObject(Video v) {
         StringBuilder sb = new StringBuilder();
         sb.append("{");
@@ -176,9 +157,6 @@ public class VideoResource {
         return sb.toString();
     }
 
-    /**
-     * Convertir lista de Videos a array JSON (como String)
-     */
     private String convertirAJSONArray(List<Video> videos) {
         StringBuilder sb = new StringBuilder();
         sb.append("[");
@@ -194,9 +172,6 @@ public class VideoResource {
         return sb.toString();
     }
 
-    /**
-     * Escapar caracteres especiales para JSON
-     */
     private String escapeJson(String s) {
         if (s == null) {
             return "\"\"";
