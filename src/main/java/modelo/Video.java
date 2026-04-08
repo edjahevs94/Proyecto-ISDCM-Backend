@@ -4,10 +4,6 @@
  */
 package modelo;
 
-/**
- *
- * @author alumne
- */
 public class Video {
 
     private int id;
