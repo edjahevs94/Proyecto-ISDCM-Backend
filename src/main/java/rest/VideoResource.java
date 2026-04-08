@@ -11,30 +11,11 @@ import modelo.Video;
 
 import java.util.List;
 
-/**
- * Servicio REST para gestión de vídeos
- * Base path: /api/videos
- *
- * @author alumne
- */
 @Path("/videos")
 public class VideoResource {
 
     private final VideoDAOBackend dao = new VideoDAOBackend();
 
-    /**
-     * Búsqueda de vídeos
-     * Soporta búsqueda por título, autor o fecha (o combinaciones)
-     *
-     * GET /api/videos/buscar?titulo=X&autor=Y&fecha=Z
-     *
-     * Parámetros:
-     * - titulo (opcional): cadena a buscar en el título (búsqueda parcial, case-insensitive)
-     * - autor (opcional): cadena a buscar en el autor (búsqueda parcial, case-insensitive)
-     * - fecha (opcional): formato yyyy, yyyy-MM o yyyy-MM-dd
-     *
-     * Respuesta: JSON con lista de vídeos que coinciden
-     */
     @GET
     @Path("/buscar")
     @Produces(MediaType.APPLICATION_JSON)
@@ -45,18 +26,13 @@ public class VideoResource {
 
         List<Video> resultados;
 
-        // Lógica de búsqueda según los parámetros proporcionados
         if (titulo != null && !titulo.isEmpty() && fecha == null && autor == null) {
-            // Solo búsqueda por título
             resultados = dao.buscarPorTitulo(titulo);
         } else if (autor != null && !autor.isEmpty() && fecha == null && titulo == null) {
-            // Solo búsqueda por autor
             resultados = dao.buscarPorAutor(autor);
         } else if (fecha != null && !fecha.isEmpty() && titulo == null && autor == null) {
-            // Solo búsqueda por fecha
             resultados = dao.buscarPorFecha(fecha);
         } else {
-            // Combinación de criterios
             resultados = buscarAvanzada(titulo, autor, fecha);
         }
 
@@ -67,11 +43,7 @@ public class VideoResource {
                 .build();
     }
 
-    /**
-     * Búsqueda avanzada - combina múltiples criterios
-     */
     private List<Video> buscarAvanzada(String titulo, String autor, String fecha) {
-        // Obtener todos y filtrar en memoria
         List<Video> todos = dao.buscarPorTitulo("");
 
         todos.removeIf(v -> {
@@ -95,9 +67,6 @@ public class VideoResource {
         return todos;
     }
 
-    /**
-     * Verifica si la fecha del video coincide con el criterio de búsqueda
-     */
     private boolean coincidirFecha(String fechaVideo, String criterioFecha) {
         if (criterioFecha == null || criterioFecha.isEmpty()) {
             return true;
@@ -107,13 +76,10 @@ public class VideoResource {
 
         try {
             if (partes.length == 1) {
-                // Solo año: comparar primer componente
                 return fechaVideo.startsWith(partes[0]);
             } else if (partes.length == 2) {
-                // Año-mes: comparar primer y segundo componente
                 return fechaVideo.startsWith(partes[0] + "-" + partes[1]);
             } else {
-                // Fecha completa: comparación exacta
                 return fechaVideo.equals(criterioFecha);
             }
         } catch (Exception e) {

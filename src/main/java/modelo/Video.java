@@ -38,8 +38,6 @@ public class Video {
         this.formato       = formato;
         this.rutaFichero = rutaFichero;
     }
-
-    // Getters y Setters
     
     public int getUsuarioId() { 
         return usuarioId; 

@@ -79,11 +79,6 @@ public class VideoDAOBackend {
         String sql;
 
         try {
-            // Determinar el formato de la fecha:
-            // yyyy -> solo año (LIKE '2024%')
-            // yyyy-MM -> año y mes (WHERE Fecha_creacion >= '2024-03-01' AND Fecha_creacion < '2024-04-01')
-            // yyyy-MM-dd -> día completo (WHERE Fecha_creacion = '2024-03-15')
-
             String[] partes = fecha.split("-");
 
             if (partes.length == 1) {
@@ -98,7 +93,6 @@ public class VideoDAOBackend {
                     }
                 }
             } else if (partes.length == 2) {
-                // Año y mes (yyyy-MM)
                 int anio = Integer.parseInt(partes[0]);
                 int mes = Integer.parseInt(partes[1]);
                 sql = "SELECT * FROM Videos WHERE YEAR(Fecha_creacion) = ? AND MONTH(Fecha_creacion) = ?";
@@ -112,7 +106,6 @@ public class VideoDAOBackend {
                     }
                 }
             } else {
-                // Día completo (yyyy-MM-dd)
                 sql = "SELECT * FROM Videos WHERE Fecha_creacion = ?";
                 try (Connection con = ConexionBD.getConnection();
                      PreparedStatement ps = con.prepareStatement(sql)) {
