@@ -86,6 +86,62 @@ public class VideoResource {
             return false;
         }
     }
+    
+    @PUT
+    @Path("/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response actualizarVideo(@PathParam("id") int id, Video video) {
+
+        // 🔴 Validar ID
+        if (id <= 0) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity("{\"estado\":\"error\",\"mensaje\":\"ID inválido\"}")
+                    .header("Access-Control-Allow-Origin", "*")
+                    .build();
+        }
+
+        // 🔴 Verificar que exista
+        Video existente = dao.getVideoPorId(id);
+        if (existente == null) {
+            return Response.status(Response.Status.NOT_FOUND)
+                    .entity("{\"estado\":\"error\",\"mensaje\":\"Vídeo no encontrado\"}")
+                    .header("Access-Control-Allow-Origin", "*")
+                    .build();
+        }
+
+        // 🔵 Asignar ID al objeto recibido
+        video.setId(id);
+
+        // 🔵 Ejecutar update en DAO
+        boolean actualizado = dao.actualizarVideo(video);
+
+        if (actualizado) {
+            String json = "{\"estado\":\"exito\",\"mensaje\":\"Vídeo actualizado correctamente\"}";
+
+            return Response.ok(json, MediaType.APPLICATION_JSON)
+                    .header("Access-Control-Allow-Origin", "*")
+                    .header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
+                    .header("Access-Control-Allow-Headers", "Content-Type")
+                    .build();
+        } else {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity("{\"estado\":\"error\",\"mensaje\":\"Error al actualizar el vídeo\"}")
+                    .header("Access-Control-Allow-Origin", "*")
+                    .build();
+        }
+    }
+    
+    @OPTIONS
+    @Path("{path: .*}")
+    public Response options() {
+        return Response.ok()
+                .header("Access-Control-Allow-Origin", "*")
+                .header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
+                .header("Access-Control-Allow-Headers", "Content-Type")
+                .build();
+    }
+    
 
     @POST
     @Path("/{id}/reproduccion")

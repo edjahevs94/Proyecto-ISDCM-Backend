@@ -13,6 +13,29 @@ import modelo.Video;
 import util.ConexionBD;
 
 public class VideoDAOBackend {
+    
+        public boolean actualizarVideo(Video v) {
+        String sql = "UPDATE video SET titulo=?, autor=?, fechaCreacion=?, duracion=?, descripcion=?, formato=?, rutaFichero=? WHERE id=?";
+
+        try (Connection con = ConexionBD.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setString(1, v.getTitulo());
+            ps.setString(2, v.getAutor());
+            ps.setString(3, v.getFechaCreacion());
+            ps.setString(4, v.getDuracion());
+            ps.setString(5, v.getDescripcion());
+            ps.setString(6, v.getFormato());
+            ps.setString(7, v.getRutaFichero());
+            ps.setInt(8, v.getId());
+
+            return ps.executeUpdate() > 0;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
     public List<Video> buscarPorTitulo(String titulo) {
         List<Video> lista = new ArrayList<>();
