@@ -15,7 +15,7 @@ import util.ConexionBD;
 public class VideoDAOBackend {
     
         public boolean actualizarVideo(Video v) {
-        String sql = "UPDATE video SET titulo=?, autor=?, fechaCreacion=?, duracion=?, descripcion=?, formato=?, rutaFichero=? WHERE id=?";
+        String sql = "UPDATE Videos SET titulo=?, autor=?, fecha_creacion=?, duracion=?, descripcion=?, formato=?, rutafichero=? WHERE id=?";
 
         try (Connection con = ConexionBD.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
