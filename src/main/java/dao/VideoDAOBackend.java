@@ -1,6 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- */
 package dao;
 
 import java.sql.Connection;
@@ -105,7 +102,6 @@ public class VideoDAOBackend {
             String[] partes = fecha.split("-");
 
             if (partes.length == 1) {
-                // Solo año
                 sql = "SELECT * FROM Videos WHERE YEAR(Fecha_creacion) = ?";
                 try (Connection con = ConexionBD.getConnection();
                      PreparedStatement ps = con.prepareStatement(sql)) {

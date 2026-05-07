@@ -1,6 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- */
 package rest;
 
 import dao.VideoDAOBackend;
@@ -93,7 +90,6 @@ public class VideoResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response actualizarVideo(@PathParam("id") int id, Video video) {
 
-        // 🔴 Validar ID
         if (id <= 0) {
             return Response.status(Response.Status.BAD_REQUEST)
                     .entity("{\"estado\":\"error\",\"mensaje\":\"ID inválido\"}")
@@ -101,7 +97,6 @@ public class VideoResource {
                     .build();
         }
 
-        // 🔴 Verificar que exista
         Video existente = dao.getVideoPorId(id);
         if (existente == null) {
             return Response.status(Response.Status.NOT_FOUND)
@@ -110,10 +105,8 @@ public class VideoResource {
                     .build();
         }
 
-        // 🔵 Asignar ID al objeto recibido
         video.setId(id);
 
-        // 🔵 Ejecutar update en DAO
         boolean actualizado = dao.actualizarVideo(video);
 
         if (actualizado) {
