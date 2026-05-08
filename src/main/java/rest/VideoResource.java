@@ -139,7 +139,6 @@ public class VideoResource {
     @POST
     @Path("/{id}/reproduccion")
     @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
     public Response incrementarReproduccion(@PathParam("id") int id) {
 
         if (id <= 0) {

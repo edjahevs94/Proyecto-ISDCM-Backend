@@ -5,6 +5,7 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import modelo.Usuario;
+import util.JwtUtil;
 
 @Path("/usuarios")
 public class UsuarioResource {
@@ -87,12 +88,15 @@ public class UsuarioResource {
                     .build();
         }
 
+        String token = JwtUtil.generarToken(usuario.getId(), usuario.getUsername());
+
         String json = "{\"estado\":\"exito\",\"mensaje\":\"Login correcto\""
                 + ",\"id\":" + usuario.getId()
                 + ",\"name\":\"" + usuario.getName() + "\""
                 + ",\"lastname\":\"" + usuario.getLastname() + "\""
                 + ",\"email\":\"" + usuario.getEmail() + "\""
-                + ",\"username\":\"" + usuario.getUsername() + "\"}";
+                + ",\"username\":\"" + usuario.getUsername() + "\""
+                + ",\"token\":\"" + token + "\"}";
 
         return Response.ok(json, MediaType.APPLICATION_JSON)
                 .header("Access-Control-Allow-Origin", "*")
